@@ -13,6 +13,15 @@ class Pemesanan extends Controller {
     {
         // $peminjaman = $this->model('PeminjamanModel')->getAllPeminjamanById($_SESSION['id']);
         // $data['peminjaman'] = $peminjaman;
+
+        // Kalo admin
+        if ( $_SESSION['isAdmin'] == 1 ) {
+            $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesanan();
+        } else {
+            // Kalo tamu
+            $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesananById($_SESSION['idUser']);
+        }
+        
         $data['judul'] = 'Pemesanan';
         $this->view('templates/header', $data);
         $this->view('pemesanan/index', $data);

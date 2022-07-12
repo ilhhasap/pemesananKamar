@@ -61,7 +61,57 @@
     </div>
 </div>
 <?php endif ?>
+<?php if($_SESSION['isAdmin'] == 1): ?>
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-body">
+            <form action="<?= BASEURL; ?>/home/ubahKamar ?>" method="POST">
+                <div class="form-group">
+                    <h5 class="text-center">Update Kamar</h5>
+                    <hr>
+                    <input type="hidden" value="<?= $data['room']['idRoom']?>" name="idRoom">
+                    <div class="form-group mb-3">
+                        <label for="userName">Kamar nomor</label>
+                        <input type="hidden" class="form-control" name="noRoom" value="<?= $data['room']['noRoom'];?>">
+                        <input type="text" class="form-control" value="<?= $data['room']['noRoom'];?>" disabled>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userName">Tipe Kamar</label>
+                        <select class="form-select" name="idRoomType">
+                            <?php foreach($data['getAllRoomType'] as $roomType) : ?>
+                            <?php if($data['room']['idRoomType'] == $roomType['idRoomType']) { ?>
+
+                            <?php $selected = "selected"; } else { $selected = " ";} ?>
+                            <option value="<?= $roomType['idRoomType']?>" <?= $selected;?>>
+                                <?= $roomType['nameRoomType']?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <div class=" form-group mb-3">
+                        <label for="durasi">Status:</label>
+                        <select class="form-select" name="isBooked">
+                            <?php if($data['room']['isBooked'] == 0): ?> // Status Tersedia
+                            <option value="0">Tersedia</option>
+                            <option value="1">Sudah Terisi</option>
+                            <?php else:?>
+                            <option value="1">Sudah Terisi</option>
+                            <option value="0">Tersedia</option>
+                            <?php endif;?>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success mt-3" style="border-radius: 100px;">Ubah data
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<?php endif ?>
 <?php endif ?>
 
 
-</div> -->
+</div>

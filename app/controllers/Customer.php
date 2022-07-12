@@ -58,11 +58,11 @@ class Customer extends Controller {
     public function ubah()
     {
         if( $this->model('CustomerModel')->ubahDataUser($_POST) > 0 ) {
-            Flasher::setFlash('berhasil', 'diubah', 'success');
+            Flasher::setFlash('Data berhasil', 'diubah', 'success');
             header('Location: ' . BASEURL . '/customer');
             exit;
         } else {
-            Flasher::setFlash('gagal', 'diubah', 'danger');
+            Flasher::setFlash('Data berhasil', 'diubah', 'danger');
             header('Location: ' . BASEURL . '/customer');
             exit;
         } 

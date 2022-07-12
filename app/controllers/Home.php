@@ -8,7 +8,7 @@ class Home extends Controller {
         $data['standardRoom'] = $this->model('RoomModel')->getAllStandardRoom();
         $data['superiorRoom'] = $this->model('RoomModel')->getAllSuperiorRoom();
         $data['deluxeRoom'] = $this->model('RoomModel')->getAllDeluxeRoom();
-
+            
         $data['page'] = 'home';
         $data['judul'] = 'Beranda';
         $this->view('templates/header', $data);
@@ -20,9 +20,10 @@ class Home extends Controller {
     {
         $data['judul'] = 'Detail Kamar';
         $data['room'] = $this->model('RoomModel')->getRoomById($id);
+        $data['getAllRoomType'] = $this->model('RoomModel')->getAllRoomType();
         
-        // Kamar sudah terisi, tidak bisa dipesan dan arahkan ke home
-        if ($data['room']['isBooked'] == 1) {
+        // Jika Kamar sudah terisi dan bukan admin, tidak bisa dipesan dan arahkan ke home
+        if ($data['room']['isBooked'] == 1 && $_SESSION['isAdmin'] == 0) {
             header('Location: ' . BASEURL);
             exit;
         }
@@ -35,6 +36,20 @@ class Home extends Controller {
         $this->view('templates/header', $data);
         $this->view('home/detail', $data);
         $this->view('templates/footer');
+    }
+
+
+    public function ubahKamar()
+    {
+        if( $this->model('RoomModel')->ubahDataKamar($_POST) > 0 ) {
+            Flasher::setFlash('Kamar ' . $_POST['noRoom'] . ' berhasil', 'diupdate', 'success');
+            header('Location: ' . BASEURL . '/home');
+            exit;
+        } else {
+            Flasher::setFlash('Kamar ' . $_POST['noRoom'] . ' gagal', 'diupdate', 'danger');
+            header('Location: ' . BASEURL );
+            exit;
+        } 
     }
     
 }

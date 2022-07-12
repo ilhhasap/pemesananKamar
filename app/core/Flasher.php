@@ -1,10 +1,10 @@
 <?php 
 
 class Flasher {
-    public static function setFlash($pesan, $aksi, $tipe)
+    public static function setFlash($komponen, $aksi, $tipe)
     {
         $_SESSION['flash'] = [
-            'pesan' => $pesan,
+            'komponen' => $komponen,
             'aksi'  => $aksi,
             'tipe'  => $tipe
         ];
@@ -15,7 +15,7 @@ class Flasher {
         
         if( isset($_SESSION['flash']) ) {
             echo '<div class="alert alert-' . $_SESSION['flash']['tipe'] . ' alert-dismissible fade show" role="alert">
-                    Data <strong>' . $_SESSION['flash']['pesan'] . '</strong> ' . $_SESSION['flash']['aksi'] . '
+                    <strong>' . $_SESSION['flash']['komponen'] . '</strong> ' . $_SESSION['flash']['aksi'] . '
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                     </button>
                 </div>';

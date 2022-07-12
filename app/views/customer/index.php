@@ -23,6 +23,7 @@
         </div> -->
 
     <div class="row">
+
         <div class="col-12">
             <ul class="nav nav-tabs d-flex justify-content-start align-items-center" id="tableTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -36,6 +37,9 @@
             </ul>
 
             <div class="tab-content" id="tableTabContent">
+                <div class="col-md-4">
+                    <?php Flasher::flash(); ?>
+                </div>
                 <div class="tab-pane fade show active" id="tamu" role="tabpanel" aria-labelledby="tamu-tab">
                     <div class="table-responsive">
                         <table class="table table-borderless transaction-table w-100 active" id="table-tamu">
@@ -135,82 +139,6 @@
 </div>
 </div>
 
-
-
-
-<!-- <div class="container mt-3">
-
-    <div class="row">
-        <div class="col-lg-6">
-        <?php Flasher::flash(); ?>
-        </div>
-    </div>
-
-    <?php if(isset($_SESSION['login'])): ?>
-    <?php if($_SESSION['isAdmin'] == 1): ?>
-    <div class="row mb-3">
-        <div class="col-lg-12 text-end">
-            <button type="button" class="btn btn-primary tombolTambahData" data-bs-toggle="modal"
-                data-bs-target="#formModal">
-                Tambah Data
-            </button>
-        </div>
-    </div>
-    <?php endif ?>
-    <?php endif ?>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h3>Data Customer</h3>
-            <form action="<?= BASEURL; ?>/customer/cari" method="post">
-                <div class="col-lg-3">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Cari customer" name="keyword" id="keyword"
-                            autocomplete="off">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit" id="tombolCari">Cari</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <table class="table table-light table-striped table-borderless">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nama Customer</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1; foreach( $data['customer'] as $customer ) : ?>
-                    <tr>
-                        <th scope="row"><?= $i;?></th>
-                        <td><?= $customer['namaUser']; ?></td>
-                        <td><?= $customer['userName']; ?></td>
-                        <td><?= ($customer['isAdmin'] == 0) ? 'Tamu' : 'Admin' ?></td>
-                        <td><a href="<?= BASEURL; ?>/customer/detail/<?= $customer['idUser']; ?>"><i
-                                    class="bi bi-eye-fill"></i></a>
-                        </td>
-                    </tr>
-                    <?php $i++; ?>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <!-- <?php foreach( $data['buku'] as $buku ) : ?>
-                <li class="list-group-item">
-                    <?= $buku['judul']; ?>
-                    <a href="<?= BASEURL; ?>/buku/detail/<?= $buku['id']; ?>"
-                        class="badge badge-primary float-right">detail</a>
-                    <a href="<?= BASEURL; ?>/peminjaman/tambah/<?= $buku['id']; ?>"
-                        class="badge badge-success float-right">pinjam</a>
-                </li>
-                <?php endforeach; ?> -->
-</div>
-</div>
-
-</div> -->
 
 <!-- Modal -->
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModtamuabel" aria-hidden="true">

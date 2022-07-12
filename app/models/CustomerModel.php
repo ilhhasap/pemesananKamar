@@ -59,14 +59,10 @@ class CustomerModel {
 
     public function ubahDataUser($data)
     {
-        $query = "UPDATE user SET
-                    namaUser = :namaUser,
-                    userName = :userName,
-                    -- password = :password,
-                    isAdmin = :isAdmin,
-                  WHERE idUser = :idUser";
+        $query = "UPDATE user SET namaUser = :namaUser, userName = :userName, isAdmin = :isAdmin WHERE idUser = :idUser";
         
         $this->db->query($query);
+        $this->db->bind('idUser', $data['idUser']);
         $this->db->bind('namaUser', $data['namaUser']);
         $this->db->bind('userName', $data['userName']);
         // $this->db->bind('password', $data['password']);

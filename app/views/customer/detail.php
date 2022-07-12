@@ -21,7 +21,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form action="<?= BASEURL; ?>/customer/ubah/<?= $data['customer']['idUser']; ?>" method="post">
+                <form action="<?= BASEURL; ?>/customer/ubah ?>" method="POST">
                     <input type="hidden" name="idUser" id="idUser" value="<?= $data['customer']['idUser']; ?>">
                     <div class="form-group">
                         <h5 class="text-center">Update data</h5>
@@ -56,15 +56,15 @@
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary mt-3" style="border-radius: 100px;">Ubah data
                             </button>
-                            <a href="<?= BASEURL; ?>/customer/hapus/<?= $data['customer']['idUser']; ?>"
-                                class="btn btn-danger mt-3" style="border-radius: 100px;"
-                                onclick="return confirm('yakin?');">Hapus</a>
-                        </div>
-                    </div>
                 </form>
+
+                <a href="<?= BASEURL; ?>/customer/hapus/<?= $data['customer']['idUser']; ?>" class="btn btn-danger mt-3"
+                    style="border-radius: 100px;" onclick="return confirm('yakin?');">Hapus</a>
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 <?php endif ?>
 <?php endif ?>

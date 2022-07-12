@@ -1,7 +1,7 @@
 <?php 
 
-class PeminjamanModel {
-    private $table = 'peminjaman';
+class PemesananModel {
+    private $table = 'booking';
     private $db;
 
     public function __construct()
@@ -9,40 +9,27 @@ class PeminjamanModel {
         $this->db = new Database;
     }
 
-    public function getAllPeminjaman()
+    public function getAllPemesanan()
+    {
+        $this->db->query('SELECT * FROM ' . $this->table . ' INNER JOIN room ON room.idRoom = ' . $this->table . '.idRoom INNER JOIN user ON user.idUser = ' . $this->table . '.idUser INNER JOIN status ON status.idStatus = ' . $this->table . '.idStatus ORDER BY booking.idStatus ASC');
+        
+        return $this->db->resultSet();
+    }
+
+    public function getAllPemesananById($idUser)
     {
         $this->db->query('SELECT
-        peminjaman.*, buku.judul, pengguna.username
-        FROM peminjaman
-        INNER JOIN buku ON peminjaman.buku=buku.id
-        INNER JOIN pengguna ON peminjaman.pengguna=pengguna.id
-        ');
-        return $this->db->resultSet();
-    }
-
-    public function getAllPeminjamanById($id)
-    {
-        $this->db->query('SELECT 
-        peminjaman.*, buku.judul, pengguna.username
-        FROM peminjaman
-        INNER JOIN buku ON peminjaman.buku=buku.id
-        INNER JOIN pengguna ON peminjaman.pengguna=pengguna.id  
-        WHERE peminjaman.pengguna=:id
-        ');
-        $this->db->bind('id', $id);
-        return $this->db->resultSet();
-    }
-
-    public function getPeminjamanById($id)
-    {
-        $this->db->query('SELECT 
-        peminjaman.*, buku.judul, pengguna.username
-        FROM peminjaman
-        INNER JOIN buku ON peminjaman.buku=buku.id
-        INNER JOIN pengguna ON peminjaman.pengguna=pengguna.id 
-        WHERE peminjaman.id=:id
-        ');
-        $this->db->bind('id', $id);
+         * FROM ' 
+         . $this->table . 
+         ' INNER JOIN room ON room.idRoom = ' 
+         . $this->table . 
+         '.idRoom INNER JOIN user ON user.idUser = ' 
+         . $this->table . 
+         '.idUser INNER JOIN status ON status.idStatus = ' 
+         . $this->table . 
+         '.idStatus WHERE booking.idUser =:idUser');
+         
+        $this->db->bind('idUser', $idUser);
         return $this->db->single();
     }
 

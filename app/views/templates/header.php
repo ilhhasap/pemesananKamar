@@ -35,8 +35,8 @@
                     </div>
 
                     <?php if(isset($_SESSION['login'])): ?>
-                    <h4 class="profile-name"><?= $_SESSION['userName'] ?></h4>
-                    <p class="profile-email"><?= $_SESSION['userName'] ?></p>
+                    <h4 class="profile-name"><?= $_SESSION['namaUser'] ?></h4>
+                    <p class="profile-email">@<?= $_SESSION['userName'] ?></p>
                     <?php else: ?>
                     <h4 class="profile-name">Selamat datang!</h4>
                     <p class="profile-email">Web Pemesanan Kamar</p>
@@ -74,7 +74,7 @@
                                 stroke-linejoin="round" />
                         </svg>
 
-                        <span>Overview</span>
+                        <span>Kelola kamar</span>
                     </a>
 
                     <a href="<?= BASEURL; ?>/customer"
@@ -93,7 +93,7 @@
                         <span>User</span>
                     </a>
 
-                    <a href="<?= BASEURL; ?>/kamar"
+                    <!-- <a href="<?= BASEURL; ?>/kamar"
                         class="sidebar-item <?= ($data['page'] == 'kamar') ? 'active' : ' ' ?>">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -102,7 +102,7 @@
                         </svg>
 
                         <span>Kamar</span>
-                    </a>
+                    </a> -->
 
                     <a href="<?= BASEURL; ?>/pemesanan" class="sidebar-item" onclick="toggleActive(this)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -146,7 +146,7 @@
                         <span>Pesan Kamar</span>
                     </a>
 
-                    <a href="#" class="sidebar-item" onclick="toggleActive(this)">
+                    <a href="<?= BASEURL; ?>/pemesanan/" class="sidebar-item" onclick="toggleActive(this)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
@@ -171,7 +171,24 @@
                     </a>
                     <?php endif; ?>
                     <?php else: ?>
-                    <a href="<?= BASEURL; ?>/pengguna/masuk" class="sidebar-item" onclick="toggleActive(this)">
+                    <a href="<?= BASEURL; ?>" class="sidebar-item <?= ($data['page'] == 'home') ? 'active' : ' ' ?>"
+                        onclick="toggleActive(this)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 14H14V21H21V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 14H3V21H10V14Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M21 3H14V10H21V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M10 3H3V10H10V3Z" stroke="white" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                        <span>Home</span>
+                    </a>
+                    <a href="<?= BASEURL; ?>/pengguna/masuk"
+                        class="sidebar-item <?= ($data['page'] == 'masuk') ? 'active' : ' ' ?>"
+                        onclick="toggleActive(this)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M18.36 6.64C19.6184 7.89879 20.4753 9.50244 20.8223 11.2482C21.1693 12.9939 20.9909 14.8034 20.3096 16.4478C19.6284 18.0921 18.4748 19.4976 16.9948 20.4864C15.5148 21.4752 13.7749 22.0029 11.995 22.0029C10.2151 22.0029 8.47515 21.4752 6.99517 20.4864C5.51519 19.4976 4.36164 18.0921 3.68036 16.4478C2.99909 14.8034 2.82069 12.9939 3.16772 11.2482C3.51475 9.50244 4.37162 7.89879 5.63 6.64"
@@ -190,53 +207,3 @@
             </aside>
 
         </div>
-
-
-
-
-        <!-- <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-            <meta charset="UTF-8">
-            <title>Halaman <?= $data['judul']; ?></title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-                crossorigin="anonymous">
-            <link rel="stylesheet" href="<?= BASEURL; ?>/css/style.css">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-        </head>
-
-        <body>
-
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container">
-                    <a class="navbar-brand" href="<?= BASEURL; ?>">Hotel Simpel</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-item nav-link" href="<?= BASEURL; ?>">Home</a>
-                            <?php if(isset($_SESSION['login'])): ?>
-                            <?php if($_SESSION['isAdmin'] == 1): ?>
-                            <a class="nav-item nav-link" href="<?= BASEURL; ?>/customer">Customer</a>
-                            <a class="nav-item nav-link" href="<?= BASEURL; ?>/kamar">Kamar</a>
-                            <a class="nav-item nav-link" href="<?= BASEURL; ?>/pemesanan">Pemesanan</a>
-                            <?php endif; ?>
-                            <?php if($_SESSION['isAdmin'] == 0): ?>
-                            <a class="nav-item nav-link" href="<?= BASEURL; ?>/pemesanan">Pesanan saya</a>
-                            <?php endif; ?>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <?php if(isset($_SESSION['login'])): ?>
-                    <a class="nav-item nav-link text-danger"
-                        href="<?= BASEURL; ?>/pengguna/keluar"><?= $_SESSION['userName'] ?></a>
-                    <?php else: ?>
-                    <a class="btn btn-primary" href="<?= BASEURL; ?>/pengguna/masuk" role="button">Login</a>
-                    <?php endif ?>
-                </div>
-            </nav> -->

@@ -14,8 +14,8 @@
     </div>
 
     <ul class="nav nav-tabs d-flex justify-content-start align-items-center pt-0" id="tableTab" role="tablist">
-        <div class="align-items-center me-2">
-            Tipe :
+        <div class="align-items-center me-3">
+            Tipe Kamar :
         </div>
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="standardRoom-tab" data-bs-toggle="tab" data-bs-target="#standardRoom"
@@ -34,6 +34,9 @@
     <div class="tab-content" id="tableTabContent">
 
         <div class="tab-pane fade show active" id="standardRoom" role="tabpanel" aria-labelledby="standardRoom-tab">
+            <div class="col-md-4">
+                <?php Flasher::flash(); ?>
+            </div>
             <div class="row gap-5">
                 <?php foreach($data['standardRoom'] as $room) : ?>
                 <div class="card" style="width: 18rem;">
@@ -43,9 +46,14 @@
                         <h5 class="card-title font-weight-bold">Kamar 0<?= $room['noRoom'];?></h5>
                         <p class="card-text"><?= $room['nameRoomType'];?></p>
                         <div class="d-grid">
+                            <?php if(isset($_SESSION['login']) && $_SESSION['isAdmin'] == 1 ) : ?>
                             <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
-                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled';?>"
-                                style="border-radius: 100px;">Lihat detail</a>
+                                class="btn btn-primary mt-3" style="border-radius: 100px;">Edit Kamar</a>
+                            <?php else : ?>
+                            <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
+                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled'?>"
+                                style="border-radius: 100px;">Lihat Detail</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>
@@ -63,9 +71,14 @@
                         <h5 class="card-title font-weight-bold">Kamar 0<?= $room['noRoom'];?></h5>
                         <p class="card-text"><?= $room['nameRoomType'];?></p>
                         <div class="d-grid">
+                            <?php if(isset($_SESSION['login']) && $_SESSION['isAdmin'] == 1 ) : ?>
                             <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
-                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled';?>"
-                                style="border-radius: 100px;">Book now</a>
+                                class="btn btn-primary mt-3" style="border-radius: 100px;">Edit Kamar</a>
+                            <?php else : ?>
+                            <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
+                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled'?>"
+                                style="border-radius: 100px;">Lihat Detail</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>
@@ -82,9 +95,14 @@
                         <h5 class="card-title font-weight-bold">Kamar 0<?= $room['noRoom'];?></h5>
                         <p class="card-text"><?= $room['nameRoomType'];?></p>
                         <div class="d-grid">
+                            <?php if(isset($_SESSION['login']) && $_SESSION['isAdmin'] == 1 ) : ?>
                             <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
-                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled';?>"
-                                style="border-radius: 100px;">Lihat detail</a>
+                                class="btn btn-primary mt-3" style="border-radius: 100px;">Edit Kamar</a>
+                            <?php else : ?>
+                            <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
+                                class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled'?>"
+                                style="border-radius: 100px;">Lihat Detail</a>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>

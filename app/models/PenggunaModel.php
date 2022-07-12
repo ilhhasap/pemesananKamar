@@ -22,6 +22,13 @@ class PenggunaModel {
         return $this->db->single();
     }
 
+    public function getPenggunaByUsername($userName)
+    {
+        $this->db->query('SELECT idUser FROM ' . $this->table . ' WHERE userName=:userName');
+        $this->db->bind('userName', $userName);
+        return $this->db->single();
+    }
+
     public function checkUsername($userName)
     {
         $this->db->query('SELECT * FROM ' . $this->table . ' WHERE userName=:userName');

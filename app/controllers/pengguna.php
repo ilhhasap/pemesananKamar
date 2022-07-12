@@ -8,8 +8,12 @@ class pengguna extends Controller {
         if (isset($_POST['submit'])) {
             foreach ($pengguna as $p) {
                 if ($p['userName'] == $_POST['userName'] && $p['password'] == $_POST['password']) {
-                    $_SESSION['idUser'] = $p['idUser'];
+
+                    $ambilId = $this->model('PenggunaModel')->getPenggunaByUsername($_POST['userName']);
+
+                    $_SESSION['idUser'] = $ambilId;
                     $_SESSION['userName'] = $p['userName'];
+                    $_SESSION['namaUser'] = $p['namaUser'];
                     $_SESSION['isAdmin'] = $p['isAdmin'];
                     $_SESSION['login'] = true;
                     header('Location: ' . BASEURL);
@@ -17,6 +21,7 @@ class pengguna extends Controller {
                 }
             }
         }
+        $data['page'] = 'masuk';
         $data['judul'] = 'Masuk';
         $this->view('templates/header', $data);
         $this->view('pengguna/masuk', $data);
