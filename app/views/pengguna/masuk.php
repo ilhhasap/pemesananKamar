@@ -31,6 +31,9 @@
                 </ul>
 
                 <div class="tab-content" id="tableTabContent">
+                    <div class="col-md-4">
+                        <?php Flasher::flash(); ?>
+                    </div>
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                         <div class="card">
                             <h3 class="text-center mt-3 font-weight-bold">Login</h3>

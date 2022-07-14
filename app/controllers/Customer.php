@@ -45,11 +45,11 @@ class Customer extends Controller {
     public function hapus($idUser)
     {
         if( $this->model('CustomerModel')->hapusDataUser($idUser) > 0 ) {
-            Flasher::setFlash('berhasil', 'dihapus', 'success');
+            Flasher::setFlash('Berhasil', 'dihapus', 'success');
             header('Location: ' . BASEURL . '/customer');
             exit;
         } else {
-            Flasher::setFlash('gagal', 'dihapus', 'danger');
+            Flasher::setFlash('Gagal', 'dihapus', 'danger');
             header('Location: ' . BASEURL . '/customer');
             exit;
         }

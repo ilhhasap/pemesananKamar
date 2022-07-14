@@ -104,7 +104,9 @@
                         <span>Kamar</span>
                     </a> -->
 
-                    <a href="<?= BASEURL; ?>/pemesanan" class="sidebar-item" onclick="toggleActive(this)">
+                    <a href="<?= BASEURL; ?>/pemesanan"
+                        class="sidebar-item <?= ($data['judul'] == 'Pemesanan') ? 'active' : ' ' ?>"
+                        onclick="toggleActive(this)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M21 4H3C1.89543 4 1 4.89543 1 6V18C1 19.1046 1.89543 20 3 20H21C22.1046 20 23 19.1046 23 18V6C23 4.89543 22.1046 4 21 4Z"
@@ -146,7 +148,9 @@
                         <span>Pesan Kamar</span>
                     </a>
 
-                    <a href="<?= BASEURL; ?>/pemesanan/" class="sidebar-item" onclick="toggleActive(this)">
+                    <a href="<?= BASEURL; ?>/pemesanan/"
+                        class="sidebar-item <?= ($data['judul'] == 'Pesanan Saya') ? 'active' : ' ' ?>"
+                        onclick="toggleActive(this)">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"

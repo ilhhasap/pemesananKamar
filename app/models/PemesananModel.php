@@ -11,7 +11,7 @@ class PemesananModel {
 
     public function getAllPemesanan()
     {
-        $this->db->query('SELECT * FROM ' . $this->table . ' INNER JOIN room ON room.idRoom = ' . $this->table . '.idRoom INNER JOIN user ON user.idUser = ' . $this->table . '.idUser INNER JOIN status ON status.idStatus = ' . $this->table . '.idStatus ORDER BY booking.idStatus ASC');
+        $this->db->query('SELECT * FROM booking INNER JOIN room ON room.idRoom = booking.idRoom INNER JOIN user ON user.idUser = booking.idUser INNER JOIN status ON status.idStatus = booking.idStatus ORDER BY booking.idStatus ASC');
         
         return $this->db->resultSet();
     }
@@ -21,15 +21,20 @@ class PemesananModel {
         $this->db->query('SELECT
          * FROM ' 
          . $this->table . 
-         ' INNER JOIN room ON room.idRoom = ' 
-         . $this->table . 
-         '.idRoom INNER JOIN user ON user.idUser = ' 
-         . $this->table . 
-         '.idUser INNER JOIN status ON status.idStatus = ' 
-         . $this->table . 
-         '.idStatus WHERE booking.idUser =:idUser');
+         ' INNER JOIN room ON room.idRoom = booking.idRoom INNER JOIN user ON user.idUser = booking.idUser INNER JOIN status ON status.idStatus = booking.idStatus WHERE booking.idUser =:idUser');
          
         $this->db->bind('idUser', $idUser);
+        return $this->db->single();
+    }
+    
+    public function getAllPemesananByIdBooking($idBooking)
+    {
+        $this->db->query('SELECT
+         * FROM ' 
+         . $this->table . 
+         ' INNER JOIN room ON room.idRoom = booking.idRoom INNER JOIN user ON user.idUser = booking.idUser INNER JOIN status ON status.idStatus = booking.idStatus WHERE booking.idBooking =:idBooking');
+         
+        $this->db->bind('idBooking', $idBooking);
         return $this->db->single();
     }
 

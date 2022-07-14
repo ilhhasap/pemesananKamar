@@ -9,9 +9,7 @@ class pengguna extends Controller {
             foreach ($pengguna as $p) {
                 if ($p['userName'] == $_POST['userName'] && $p['password'] == $_POST['password']) {
 
-                    $ambilId = $this->model('PenggunaModel')->getPenggunaByUsername($_POST['userName']);
-
-                    $_SESSION['idUser'] = $ambilId;
+                    $_SESSION['idUser'] = $p['idUser'];
                     $_SESSION['userName'] = $p['userName'];
                     $_SESSION['namaUser'] = $p['namaUser'];
                     $_SESSION['isAdmin'] = $p['isAdmin'];

@@ -16,25 +16,27 @@ class Pemesanan extends Controller {
 
         // Kalo admin
         if ( $_SESSION['isAdmin'] == 1 ) {
+            $data['judul'] = 'Pemesanan';
             $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesanan();
+            $data['customer'] = $this->model('CustomerModel')->getAllCustomer();
         } else {
             // Kalo tamu
-            $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesananById($_SESSION['idUser']);
+            $idUser = $_SESSION['idUser'];
+            $data['judul'] = 'Pesanan Saya';
+            $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesananById($idUser);
         }
         
-        $data['judul'] = 'Pemesanan';
         $this->view('templates/header', $data);
         $this->view('pemesanan/index', $data);
         $this->view('templates/footer');
     }
 
-    public function detail($id)
+    public function detail($idBooking)
     {
-        $peminjaman = $this->model('PeminjamanModel')->getPeminjamanById($id);
-        $data['peminjaman'] = $peminjaman;
-        $data['judul'] = 'DetailPeminjaman';
+        $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesananByIdBooking($idBooking);
+        $data['judul'] = 'Detail Pemesanan';
         $this->view('templates/header', $data);
-        $this->view('peminjaman/detail', $data);
+        $this->view('pemesanan/detail', $data);
         $this->view('templates/footer');
     }
 
