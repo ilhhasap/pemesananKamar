@@ -3,11 +3,21 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <span
-                        class="badge bg-<?= ($data['getPemesanan']['idStatus'] == 0) ? 'warning' : (($data['getPemesanan']['idStatus'] == 1) ? 'success' : ($data['getPemesanan']['idStatus'] == 2) ? 'danger' : 'secondary');?>"><?= ($data['getPemesanan']['idStatus'] == 0) ? 'Pending' : (($data['getPemesanan']['idStatus'] == 1) ? 'Check In' : ($data['getPemesanan']['idStatus'] == 2) ? 'Check Out' : 'Canceled');?></span>
+                    <?php if( $data['getPemesanan']['idStatus'] == 0 ) : ?>
+                    <span class="badge bg-warning">Pending</span>
+                    <?php endif;?>
+                    <?php if( $data['getPemesanan']['idStatus'] == 1 ) : ?>
+                    <span class="badge bg-success">Check In</span>
+                    <?php endif;?>
+                    <?php if( $data['getPemesanan']['idStatus'] == 2 ) : ?>
+                    <span class="badge bg-danger">Check Out</span>
+                    <?php endif;?>
+                    <?php if( $data['getPemesanan']['idStatus'] == 3 ) : ?>
+                    <span class="badge bg-primary"><i class="bi bi-check-lg"></i> Completed</span>
+                    <?php endif;?>
                     <h5 class="card-title"><?= $data['getPemesanan']['namaUser']; ?></h5>
                     <p class="card-text"><?= $data['getPemesanan']['namaUser']; ?></p>
-                    <a href="<?= BASEURL; ?>" class="card-link">Kembali</a>
+                    <a href="<?= BASEURL; ?>/pemesanan" class="card-link">Kembali</a>
                     <!-- <?php if(isset($_SESSION['login'])): ?>
                     <?php if($_SESSION['isAdmin'] == 1): ?>
                     <a href="<?= BASEURL; ?>/customer/hapus/<?= $data['customer']['idUser']; ?>"
@@ -65,38 +75,55 @@
 <div class="col-md-8">
     <div class="card">
         <div class="card-body">
-            <form action="<?= BASEURL; ?>/home/ubahKamar ?>" method="POST">
+            <form action="<?= BASEURL; ?>/home/ubahPemesanan ?>" method="POST">
                 <div class="form-group">
-                    <h5 class="text-center">Update Kamar</h5>
+                    <h5 class="text-center">Update Pemesanan</h5>
                     <hr>
-                    <input type="hidden" value="<?= $data['room']['idRoom']?>" name="idRoom">
+                    <input type="hidden" value="<?= $data['getPemesanan']['idBooking']?>" name="idBooking">
                     <div class="form-group mb-3">
                         <label for="userName">Kamar nomor</label>
-                        <input type="hidden" class="form-control" name="noRoom" value="<?= $data['room']['noRoom'];?>">
-                        <input type="text" class="form-control" value="<?= $data['room']['noRoom'];?>" disabled>
+                        <select class="form-select" name="idRoom">
+                            <option value="<?= $data['getPemesanan']['idRoom']; ?>">Kamar
+                                <?= $data['getPemesanan']['noRoom']; ?></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="userName">Nama Customer</label>
+                        <select class="form-select" name="idUser">
+                            <option value="<?= $data['getPemesanan']['idUser']; ?>">
+                                <?= $data['getPemesanan']['namaUser']; ?></option>
+                        </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="userName">Tipe Kamar</label>
-                        <select class="form-select" name="idRoomType">
-                            <?php foreach($data['getAllRoomType'] as $roomType) : ?>
-                            <?php if($data['room']['idRoomType'] == $roomType['idRoomType']) { ?>
-
-                            <?php $selected = "selected"; } else { $selected = " ";} ?>
-                            <option value="<?= $roomType['idRoomType']?>" <?= $selected;?>>
-                                <?= $roomType['nameRoomType']?></option>
-                            <?php endforeach;?>
-                        </select>
+                        <label for="userName">Check In</label>
+                        <input type="datetime-local"
+                            value="<?= date('Y-m-d h:i:s', strtotime($data['getPemesanan']['checkIn'])); ?>"
+                            class="form-control date" name="checkIn" REQUIRED>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userName">Check Out</label>
+                        <input type="datetime-local"
+                            value="<?= date('Y-m-d h:i:s', strtotime($data['getPemesanan']['checkOut'])); ?>"
+                            class="form-control date" name="checkOut" REQUIRED>
                     </div>
                     <div class=" form-group mb-3">
                         <label for="durasi">Status:</label>
                         <select class="form-select" name="isBooked">
-                            <?php if($data['room']['isBooked'] == 0): ?> // Status Tersedia
-                            <option value="0">Tersedia</option>
-                            <option value="1">Sudah Terisi</option>
-                            <?php else:?>
-                            <option value="1">Sudah Terisi</option>
-                            <option value="0">Tersedia</option>
-                            <?php endif;?>
+                            <option value="<?= $data['getPemesanan']['idStatus']; ?>">
+                                <?php if( $data['getPemesanan']['idStatus'] == 0 ) : ?>
+                                Pending
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 1 ) : ?>
+                                Check In
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 2 ) : ?>
+                                Check Out
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 3 ) : ?>
+                                Completed
+                                <?php endif;?>
+                            </option>
                         </select>
                     </div>
                     <div class="d-grid">

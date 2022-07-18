@@ -9,13 +9,13 @@ class PemesananModel {
         $this->db = new Database;
     }
 
-    public function getAllPemesanan()
+    public function getAllPemesanan($idStatus)
     {
-        $this->db->query('SELECT * FROM booking INNER JOIN room ON room.idRoom = booking.idRoom INNER JOIN user ON user.idUser = booking.idUser INNER JOIN status ON status.idStatus = booking.idStatus ORDER BY booking.idStatus ASC');
+        $this->db->query('SELECT * FROM booking INNER JOIN room ON room.idRoom = booking.idRoom LEFT JOIN roomType ON roomType.idRoomType = room.idRoomType INNER JOIN user ON user.idUser = booking.idUser INNER JOIN status ON status.idStatus = booking.idStatus WHERE booking.idStatus = ' . $idStatus);
         
         return $this->db->resultSet();
     }
-
+    
     public function getAllPemesananById($idUser)
     {
         $this->db->query('SELECT
@@ -37,42 +37,46 @@ class PemesananModel {
         $this->db->bind('idBooking', $idBooking);
         return $this->db->single();
     }
-
-    public function tambahDataPeminjaman($data)
+    
+    public function tambahDataPemesanan($data)
     {
-        $query = 'INSERT INTO peminjaman 
-        VALUES (NULL, :buku, :pengguna, :pinjam, :kembali, 0)';
+        $query = 'INSERT INTO booking 
+        VALUES (NULL, :idRoom, :idUser, :checkIn, :checkOut, 0)';
 
-        $pinjam= date('Y-m-d h:i:s');
-        $kembali = date('Y-m-d h:i:s', strtotime($pinjam . ' + 7 days'));
+        $checkIn= $data['checkIn'];
+        $checkOut = date('Y-m-d h:i:s', strtotime($checkIn . ' + ' . $data['durasi'] .' days'));
         
         $this->db->query($query);
-        $this->db->bind('buku', $data['buku']);
-        $this->db->bind('pengguna', $data['pengguna']);
-        $this->db->bind('pinjam', $pinjam);
-        $this->db->bind('kembali', $kembali);
-
+        $this->db->bind('idRoom', $data['idRoom']);
+        $this->db->bind('idUser', $data['idUser']);
+        $this->db->bind('checkIn', $checkIn);
+        $this->db->bind('checkOut', $checkOut);
         $this->db->execute();
+        
+        $queryUpdateRoom = 'UPDATE room SET isBooked = 1 WHERE idRoom = :idRoom';
+        $this->db->query($queryUpdateRoom);
 
         return $this->db->rowCount();
     }
 
-    public function ubahDataPeminjaman($data)
+    public function prosesCheckIn($idBooking, $idStatus)
     {
-        $query = "UPDATE peminjaman SET
-                    buku = :buku,
-                    pengguna = :pengguna,
-                    pinjam = :pinjam,
-                    kembali = :kembali,
-                    dikembalikan = 1
-                  WHERE id = :id";
+        if ( $idStatus == 0 ) {
+            // Proses ke check In
+            $query = "UPDATE booking SET idStatus = 1 WHERE idBooking = " . $idBooking;
+        } else if( $idStatus == 1) {
+            // Proses ke check Out
+            $query = "UPDATE booking SET idStatus = 2 WHERE idBooking = " . $idBooking;
+        } else if( $idStatus == 2 ) {
+            // Proses ke Completed
+            $query = "UPDATE booking SET idStatus = 3 WHERE idBooking = " . $idBooking;
+        } else {
+            $query = "UPDATE booking SET idStatus = 0 WHERE idBooking = " . $idBooking;
+        }
         
         $this->db->query($query);
-        $this->db->bind('id', $data['id']);
-        $this->db->bind('buku', $data['buku']);
-        $this->db->bind('pengguna', $data['pengguna']);
-        $this->db->bind('pinjam', $data['pinjam']);
-        $this->db->bind('kembali', $data['kembali']);
+        $this->db->bind('idBooking', $idBooking);
+        $this->db->bind('idStatus', $idStatus);
 
         $this->db->execute();
 

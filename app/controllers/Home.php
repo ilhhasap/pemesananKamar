@@ -51,5 +51,18 @@ class Home extends Controller {
             exit;
         } 
     }
+
+    public function hapusKamar($idRoom)
+    {
+        if( $this->model('RoomModel')->hapusDataKamar($idRoom) > 0 ) {
+            Flasher::setFlash('Berhasil', 'dihapus', 'success');
+            header('Location: ' . BASEURL . '/home');
+            exit;
+        } else {
+            Flasher::setFlash('Gagal', 'dihapus', 'danger');
+            header('Location: ' . BASEURL . '/home');
+            exit;
+        }
+    }
     
 }

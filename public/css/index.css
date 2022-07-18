@@ -454,7 +454,7 @@ aside #toggle-navbar {
 }
 @media (min-width: 992px) {
   .transaction-table th:first-child {
-    width: 50%;
+    width: auto !important;
   }
 }
 .transaction-table th.status-header {

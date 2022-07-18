@@ -9,6 +9,13 @@ class RoomModel {
         $this->db = new Database;
     }
 
+    public function getAllRoom()
+    {
+        $this->db->query('SELECT * FROM room INNER JOIN roomType ON roomType.idRoomType = room.idRoomType WHERE isBooked = 0');
+        // $this->db->query('SELECT * FROM ' . $this->table );
+        return $this->db->resultSet();
+    }
+    
     public function getAllRoomType()
     {
         $this->db->query('SELECT * FROM ' . $this->table .'Type');
@@ -51,6 +58,18 @@ class RoomModel {
         $this->db->bind('idRoomType', $data['idRoomType']);
         $this->db->bind('noRoom', $data['noRoom']);
         $this->db->bind('isBooked', $data['isBooked']);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+    public function hapusDataKamar($idRoom)
+    {
+        $query = "DELETE FROM room WHERE idRoom = :idRoom";
+        
+        $this->db->query($query);
+        $this->db->bind('idRoom', $idRoom);
 
         $this->db->execute();
 

@@ -102,11 +102,14 @@
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success mt-3" style="border-radius: 100px;">Ubah data
                         </button>
-                    </div>
-                </div>
             </form>
+            <a href="<?= BASEURL; ?>/home/hapusKamar/<?= $data['room']['idRoom']; ?>"
+                class="btn btn-outline-danger mt-3" style="border-radius: 100px;"
+                onclick="return confirm('yakin?');">Hapus</a>
         </div>
     </div>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -17,7 +17,11 @@ class Pemesanan extends Controller {
         // Kalo admin
         if ( $_SESSION['isAdmin'] == 1 ) {
             $data['judul'] = 'Pemesanan';
-            $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesanan();
+            $data['getPemesananPending'] = $this->model('PemesananModel')->getAllPemesanan(0);
+            $data['getPemesananCheckIn'] = $this->model('PemesananModel')->getAllPemesanan(1);
+            $data['getPemesananCheckOut'] = $this->model('PemesananModel')->getAllPemesanan(2);
+            $data['getPemesananCompleted'] = $this->model('PemesananModel')->getAllPemesanan(3);
+            $data['getAllRoom'] = $this->model('RoomModel')->getAllRoom();
             $data['customer'] = $this->model('CustomerModel')->getAllCustomer();
         } else {
             // Kalo tamu
@@ -40,19 +44,56 @@ class Pemesanan extends Controller {
         $this->view('templates/footer');
     }
 
-    public function tambah($id)
+    public function tambah()
     {
-        $data['buku'] = $id;
-        $data['pengguna'] = $_SESSION['id'];
-        if( $this->model('PeminjamanModel')->tambahDataPeminjaman($data) > 0 ) {
+        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST) > 0 ) {
             Flasher::setFlash('berhasil', 'ditambahkan', 'success');
-            header('Location: ' . BASEURL . '/peminjaman');
+            header('Location: ' . BASEURL . '/pemesanan');
             exit;
         } else {
             Flasher::setFlash('gagal', 'ditambahkan', 'danger');
-            header('Location: ' . BASEURL . '/peminjaman');
+            header('Location: ' . BASEURL . '/pemesanan');
             exit;
         }
+    }
+
+    public function prosesCheckIn($idBooking, $idStatus)
+    {
+        if( $this->model('PemesananModel')->prosesCheckIn($idBooking, $idStatus) > 0 ) {
+            Flasher::setFlash('Pemesanan Berhasil', 'Check In', 'success');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } else {
+            Flasher::setFlash('Pemesanan Gagal', 'Check In', 'danger');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } 
+    }
+
+    public function prosesCheckOut($idBooking, $idStatus)
+    {
+        if( $this->model('PemesananModel')->prosesCheckIn($idBooking, $idStatus) > 0 ) {
+            Flasher::setFlash('Pemesanan Berhasil', 'Check Out', 'success');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } else {
+            Flasher::setFlash('Pemesanan Gagal', 'Check Out', 'danger');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } 
+    }
+    
+    public function prosesCompleted($idBooking, $idStatus)
+    {
+        if( $this->model('PemesananModel')->prosesCheckIn($idBooking, $idStatus) > 0 ) {
+            Flasher::setFlash('Pemesanan Berhasil', 'Diselesaikan', 'success');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } else {
+            Flasher::setFlash('Pemesanan Gagal', 'Diselesaikan', 'danger');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } 
     }
 
     public function dikembalikan($id)

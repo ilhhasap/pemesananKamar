@@ -62,7 +62,7 @@ class Customer extends Controller {
             header('Location: ' . BASEURL . '/customer');
             exit;
         } else {
-            Flasher::setFlash('Data berhasil', 'diubah', 'danger');
+            Flasher::setFlash('Data gagal', 'diubah', 'danger');
             header('Location: ' . BASEURL . '/customer');
             exit;
         } 

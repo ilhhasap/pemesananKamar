@@ -80,40 +80,217 @@
             </div>
 
             <?php else : ?>
+            <!-- ADMIN -->
+            <ul class="nav nav-tabs d-flex justify-content-start align-items-center" id="tableTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending"
+                        type="button" role="tab" aria-controls="pending" aria-selected="true">Pending</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="checkIn-tab" data-bs-toggle="tab" data-bs-target="#checkIn"
+                        type="button" role="tab" aria-controls="checkIn" aria-selected="false">Check In</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="checkOut-tab" data-bs-toggle="tab" data-bs-target="#checkOut"
+                        type="button" role="tab" aria-controls="checkOut" aria-selected="false">Check Out</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="done-tab" data-bs-toggle="tab" data-bs-target="#done" type="button"
+                        role="tab" aria-controls="done" aria-selected="false">Completed</button>
+                </li>
+            </ul>
+
             <div class="tab-content" id="tableTabContent">
-                <div class="tab-pane fade show active" id="tamu" role="tabpanel" aria-labelledby="tamu-tab">
+                <div class="col-md-4">
+                    <?php Flasher::flash(); ?>
+                </div>
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
                     <div class="table-responsive">
-                        <table class="table table-borderless transaction-table w-100 active" id="table-tamu">
+                        <table class="table bg-white table-borderless w-100 active" id="table-pending">
                             <thead>
                                 <tr>
-                                    <th>Atas nama</th>
-                                    <th>Status</th>
-                                    <th>Kamar</th>
+                                    <th style="padding: 24px !important;">Atas nama</th>
+                                    <!-- <th>Status</th> -->
+                                    <th colspan="2">Kamar</th>
                                     <th>Check In</th>
                                     <th>Check Out</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
 
-                                <?php foreach($data['getPemesanan'] as $pemesanan)?>
+                                <?php foreach($data['getPemesananPending'] as $pemesanan) : ?>
                                 <tr>
-                                    <td class="text-start"><?= $pemesanan['namaUser']?></td>
-                                    <td><?= ($pemesanan['idStatus'] == 0) ? 'Pending' : (($pemesanan['idStatus'] == 1) ? 'Check In' : ($pemesanan['idStatus'] == 2) ? 'Check Out' : 'Canceled') ?>
+                                    <td style="padding: 24px !important;" class="text-start">
+                                        <?= $pemesanan['namaUser']?></td>
+                                    <!-- <td><?= ($pemesanan['idStatus'] == 0) ? 'Pending' : (($pemesanan['idStatus'] == 1) ? 'Check In' : ($pemesanan['idStatus'] == 2) ? 'Check Out' : 'Canceled') ?>
+                                    </td> -->
+                                    <td colspan="2" class="align-items-center">Kamar <?= $pemesanan['noRoom']?> <span
+                                            class="badge bg-light text-success"><?= $pemesanan['nameRoomType']?></span>
                                     </td>
-                                    <td class="">Kamar <?= $pemesanan['noRoom']?></td>
                                     <td class=""><?= $pemesanan['checkIn']?></td>
                                     <td class=""><?= $pemesanan['checkOut']?></td>
-                                    <td class="action"><a
-                                            href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
-                                            class="btn-transaction mx-auto">Details</a></td>
+                                    <td class="action">
+
+                                        <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
+                                            class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
+                                        <a href="<?= BASEURL; ?>/pemesanan/prosesCheckIn/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                            class="badge bg-success mx-auto text-decoration-none"><i
+                                                class="bi bi-check-lg"></i> Check
+                                            In</a>
+                                    </td>
                                 </tr>
+                                <?php endforeach;?>
                             </tbody>
 
                         </table>
                     </div>
                 </div>
+
+                <!-- CHECK IN -->
+                <div class="tab-pane fade" id="checkIn" role="tabpanel" aria-labelledby="checkIn-tab">
+                    <div class="table-responsive">
+                        <table class="table bg-white table-borderless w-100 active" id="myTable table-checkIn">
+                            <thead>
+                                <tr>
+                                    <th style="padding: 24px !important;">Atas nama</th>
+                                    <!-- <th>Status</th> -->
+                                    <th colspan="2">Kamar</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <?php foreach($data['getPemesananCheckIn'] as $pemesanan) : ?>
+                                <tr>
+                                    <td style="padding: 24px !important;" class="text-start">
+                                        <?= $pemesanan['namaUser']?></td>
+                                    <!-- <td><?= ($pemesanan['idStatus'] == 0) ? 'Pending' : (($pemesanan['idStatus'] == 1) ? 'Check In' : ($pemesanan['idStatus'] == 2) ? 'Check Out' : 'Canceled') ?>
+                                    </td> -->
+                                    <td colspan="2" class="align-items-center">Kamar <?= $pemesanan['noRoom']?> <span
+                                            class="badge bg-light text-success"><?= $pemesanan['nameRoomType']?></span>
+                                    </td>
+                                    <td class=""><?= $pemesanan['checkIn']?></td>
+                                    <td class=""><?= $pemesanan['checkOut']?></td>
+                                    <td class="action">
+
+                                        <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
+                                            class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
+                                        <a href="<?= BASEURL; ?>/pemesanan/prosesCheckOut/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                            class="badge bg-danger mx-auto text-decoration-none"><i
+                                                class="bi bi-check-lg"></i> Check
+                                            Out</a>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- AKHIR CHECK IN -->
+
+
+
+                <!-- CHECK OUT -->
+                <div class="tab-pane fade" id="checkOut" role="tabpanel" aria-labelledby="checkOut-tab">
+                    <div class="table-responsive">
+                        <table class="table bg-white table-borderless w-100 active" id="table-checkOut">
+                            <thead>
+                                <tr>
+                                    <th style="padding: 24px !important;">Atas nama</th>
+                                    <!-- <th>Status</th> -->
+                                    <th colspan="2">Kamar</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <?php foreach($data['getPemesananCheckOut'] as $pemesanan) : ?>
+                                <tr>
+                                    <td style="padding: 24px !important;" class="text-start">
+                                        <?= $pemesanan['namaUser']?></td>
+                                    <!-- <td><?= ($pemesanan['idStatus'] == 0) ? 'Pending' : (($pemesanan['idStatus'] == 1) ? 'Check In' : ($pemesanan['idStatus'] == 2) ? 'Check Out' : 'Canceled') ?>
+                                    </td> -->
+                                    <td colspan="2" class="align-items-center">Kamar <?= $pemesanan['noRoom']?> <span
+                                            class="badge bg-light text-success"><?= $pemesanan['nameRoomType']?></span>
+                                    </td>
+                                    <td class=""><?= $pemesanan['checkIn']?></td>
+                                    <td class=""><?= $pemesanan['checkOut']?></td>
+                                    <td class="action">
+
+                                        <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
+                                            class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
+                                        <a href="<?= BASEURL; ?>/pemesanan/prosesCompleted/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                            class="badge bg-success mx-auto text-decoration-none"><i
+                                                class="bi bi-check-lg"></i> Selesai</a>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- AKHIR CHECK OUT -->
+
+
+
+                <!-- CANCELLED -->
+                <div class="tab-pane fade" id="done" role="tabpanel" aria-labelledby="done-tab">
+                    <div class="table-responsive">
+                        <table class="table bg-white table-borderless w-100 active" id="table-done">
+                            <thead>
+                                <tr>
+                                    <th style="padding: 24px !important;">Atas nama</th>
+                                    <!-- <th>Status</th> -->
+                                    <th colspan="2">Kamar</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <?php foreach($data['getPemesananCompleted'] as $pemesanan) :?>
+                                <tr>
+                                    <td style="padding: 24px !important;" class="text-start">
+                                        <?= $pemesanan['namaUser']?></td>
+                                    <!-- <td><?= ($pemesanan['idStatus'] == 0) ? 'Pending' : (($pemesanan['idStatus'] == 1) ? 'Check In' : ($pemesanan['idStatus'] == 2) ? 'Check Out' : 'Canceled') ?>
+                                    </td> -->
+                                    <td colspan="2" class="align-items-center">Kamar <?= $pemesanan['noRoom']?> <span
+                                            class="badge bg-light text-success"><?= $pemesanan['nameRoomType']?></span>
+                                    </td>
+                                    <td class=""><?= $pemesanan['checkIn']?></td>
+                                    <td class=""><?= $pemesanan['checkOut']?></td>
+                                    <td class="action">
+
+                                        <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
+                                            class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
+                                        <a href="<?= BASEURL; ?>/pemesanan/prosesSelesai/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                            class="badge bg-success mx-auto text-decoration-none"><i
+                                                class="bi bi-check-lg"></i> Check
+                                            In</a>
+                                    </td>
+                                </tr>
+                                <?php endforeach;?>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <!-- AKHIR CANCELLED -->
 
 
             </div>
@@ -131,28 +308,38 @@
                         </div>
                         <div class="modal-body">
 
-                            <form action="<?= BASEURL; ?>/customer/tambah" method="post">
+                            <form action="<?= BASEURL; ?>/pemesanan/tambah" method="post">
                                 <div class="form-group mb-3">
-                                    <label for="userName">User name</label>
-                                    <input type="text" class="form-control" id="userName" name="userName"
-                                        autocomplete="off" required>
+                                    <label for="userName">Kamar No</label>
+                                    <select class="form-select" name="idRoom">
+                                        <option selected disabled>--Pilih Kamar--</option>
+                                        <?php foreach($data['getAllRoom'] as $pemesanan) : ?>
+                                        <option value="<?= $pemesanan['idRoom']?>"><?= $pemesanan['noRoom']?>
+                                            (<?= $pemesanan['nameRoomType']?>)
+                                        </option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="namaUser">Nama User</label>
-                                    <input type="text" class="form-control" id="namaUser" name="namaUser"
-                                        autocomplete="off" required>
+                                    <label for="userName">Nama Customer</label>
+                                    <select class="form-select" name="idUser">
+                                        <option selected disabled>--Pilih Customer--</option>
+                                        <?php foreach($data['customer'] as $customer) : ?>
+                                        <option value="<?= $customer['idUser']?>"><?= $customer['namaUser'];?>
+                                        </option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        autocomplete="off" required>
+                                    <label for="userName">Check In</label>
+                                    <input type="datetime-local" class="form-control date" name="checkIn" required>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="role">Role</label>
-                                    <select class="form-select" name="isAdmin">
-                                        <option disabled selected>--Pilih Role--</option>
-                                        <option value="0">Tamu</option>
-                                        <option value="1">Admin</option>
+                                <div class=" form-group mb-3">
+                                    <label for="durasi">Durasi</label>
+                                    <select class="form-select" name="durasi">
+                                        <?php for($no = 1;$no <= 30;$no++) :?>
+                                        <option value="<?= $no;?>"><?= $no;?> hari</option>
+                                        <?php endfor;?>
                                     </select>
                                 </div>
                                 <div class="modal-footer">

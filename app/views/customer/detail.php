@@ -58,8 +58,9 @@
                             </button>
                 </form>
 
-                <a href="<?= BASEURL; ?>/customer/hapus/<?= $data['customer']['idUser']; ?>" class="btn btn-danger mt-3"
-                    style="border-radius: 100px;" onclick="return confirm('yakin?');">Hapus</a>
+                <a href="<?= BASEURL; ?>/customer/hapus/<?= $data['customer']['idUser']; ?>"
+                    class="btn btn-outline-danger mt-3" style="border-radius: 100px;"
+                    onclick="return confirm('yakin?');">Hapus</a>
             </div>
         </div>
     </div>
