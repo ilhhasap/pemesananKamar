@@ -41,16 +41,21 @@ class PemesananModel {
     public function tambahDataPemesanan($data)
     {
         $query = 'INSERT INTO booking 
-        VALUES (NULL, :idRoom, :idUser, :checkIn, :checkOut, 0)';
+        VALUES (NULL, :idRoom, :idUser, :checkIn, :checkOut, 0, :totalHarga)';
 
         $checkIn= $data['checkIn'];
-        $checkOut = date('Y-m-d h:i:s', strtotime($checkIn . ' + ' . $data['durasi'] .' days'));
+        $harga = $data['price'];
+        $durasi = $data['durasi'];
         
+        $totalHarga = $harga * $durasi;
+        $checkOut = date('Y-m-d h:i:s', strtotime($checkIn . ' + ' . $data['durasi'] .' days'));
+
         $this->db->query($query);
         $this->db->bind('idRoom', $data['idRoom']);
         $this->db->bind('idUser', $data['idUser']);
         $this->db->bind('checkIn', $checkIn);
         $this->db->bind('checkOut', $checkOut);
+        $this->db->bind('totalHarga', $totalHarga);
         $this->db->execute();
         
         $queryUpdateRoom = 'UPDATE room SET isBooked = 1 WHERE idRoom = :idRoom';

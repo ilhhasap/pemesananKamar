@@ -22,7 +22,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="<?= BASEURL; ?>/customer/ubah/<?= $data['customer']['idUser']; ?>" method="post">
+                    <form action="<?= BASEURL; ?>/home/tambahPemesanan" method="post">
+                        <input type="hidden" name="idRoom" id="idRoom" value="<?= $data['room']['idRoom']; ?>">
                         <input type="hidden" name="idUser" id="idUser" value="<?= $data['customer']['idUser']; ?>">
                         <div class="form-group">
                             <h5 class="text-center">Form Pemesanan</h5>
@@ -36,9 +37,13 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="userName">Harga</label>
-                                <input type="hidden" value="<?= $data['room']['priceRoomType']?>" name="totalPrice">
+                                <input type="hidden" value="<?= $data['room']['priceRoomType']?>" name="price">
                                 <input type="text" class="form-control" autocomplete="off" required
                                     value="Rp <?= number_format($data['room']['priceRoomType'])?>/malam" disabled>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="userName">Check In</label>
+                                <input type="datetime-local" class="form-control date" name="checkIn" required>
                             </div>
                             <div class=" form-group mb-3">
                                 <label for="durasi">Durasi</label>

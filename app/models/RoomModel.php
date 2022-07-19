@@ -49,6 +49,22 @@ class RoomModel {
         return $this->db->single();
     }
 
+
+    public function tambahDataKamar($data)
+    {
+        $query = 'INSERT INTO room VALUES (NULL, :idRoomType, :noRoom, :isBooked)';
+        
+        $this->db->query($query);
+        $this->db->bind('idRoomType', $data['idRoomType']);
+        $this->db->bind('noRoom', $data['noRoom']);
+        $this->db->bind('isBooked', $data['isBooked']);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+    
+
     public function ubahDataKamar($data)
     {
         $query = "UPDATE room SET idRoomType = :idRoomType, noRoom = :noRoom, isBooked = :isBooked WHERE idRoom = :idRoom";

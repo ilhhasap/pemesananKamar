@@ -8,6 +8,7 @@ class Home extends Controller {
         $data['standardRoom'] = $this->model('RoomModel')->getAllStandardRoom();
         $data['superiorRoom'] = $this->model('RoomModel')->getAllSuperiorRoom();
         $data['deluxeRoom'] = $this->model('RoomModel')->getAllDeluxeRoom();
+        $data['getAllRoomType'] = $this->model('RoomModel')->getAllRoomType();
             
         $data['page'] = 'home';
         $data['judul'] = 'Beranda';
@@ -38,6 +39,32 @@ class Home extends Controller {
         $this->view('templates/footer');
     }
 
+    
+    public function tambahPemesanan()
+    {
+        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST) > 0 ) {
+            Flasher::setFlash('berhasil', 'ditambahkan', 'success');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } else {
+            Flasher::setFlash('gagal', 'ditambahkan', 'danger');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        }
+    }
+
+    public function tambahKamar()
+    {
+        if( $this->model('RoomModel')->tambahDataKamar($_POST) > 0 ) {
+            Flasher::setFlash('berhasil', 'ditambahkan', 'success');
+            header('Location: ' . BASEURL . '/home');
+            exit;
+        } else {
+            Flasher::setFlash('gagal', 'ditambahkan', 'danger');
+            header('Location: ' . BASEURL . '/home');
+            exit;
+        }
+    }
 
     public function ubahKamar()
     {
@@ -47,7 +74,7 @@ class Home extends Controller {
             exit;
         } else {
             Flasher::setFlash('Kamar ' . $_POST['noRoom'] . ' gagal', 'diupdate', 'danger');
-            header('Location: ' . BASEURL );
+            header('Location: ' . BASEURL . '/home');
             exit;
         } 
     }

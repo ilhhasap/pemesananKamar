@@ -133,38 +133,26 @@
             </div>
             <div class="modal-body">
 
-                <form action="<?= BASEURL; ?>/pemesanan/tambah" method="post">
+                <form action="<?= BASEURL; ?>/home/tambahKamar" method="post">
                     <div class="form-group mb-3">
                         <label for="userName">Kamar No</label>
-                        <select class="form-select" name="idRoom">
-                            <option selected disabled>--Pilih Kamar--</option>
-                            <?php foreach($data['getAllRoom'] as $pemesanan) : ?>
-                            <option value="<?= $pemesanan['idRoom']?>"><?= $pemesanan['noRoom']?>
-                                (<?= $pemesanan['nameRoomType']?>)
-                            </option>
+                        <input type="text" class="form-control date" name="noRoom" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userName">Tipe Kamar</label>
+                        <select class="form-select" name="idRoomType">
+                            <option disabled selected>--Pilih Tipe Kamar--</option>
+                            <?php foreach($data['getAllRoomType'] as $roomType) : ?>
+                            <option value="<?= $roomType['idRoomType'];?>"><?= $roomType['nameRoomType'];?></option>
                             <?php endforeach;?>
                         </select>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="userName">Nama Customer</label>
-                        <select class="form-select" name="idUser">
-                            <option selected disabled>--Pilih Customer--</option>
-                            <?php foreach($data['customer'] as $customer) : ?>
-                            <option value="<?= $customer['idUser']?>"><?= $customer['namaUser'];?>
-                            </option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="userName">Check In</label>
-                        <input type="datetime-local" class="form-control date" name="checkIn" required>
-                    </div>
-                    <div class=" form-group mb-3">
-                        <label for="durasi">Durasi</label>
-                        <select class="form-select" name="durasi">
-                            <?php for($no = 1;$no <= 30;$no++) :?>
-                            <option value="<?= $no;?>"><?= $no;?> hari</option>
-                            <?php endfor;?>
+                        <label for="userName">Status Kamar</label>
+                        <select class="form-select" name="isBooked">
+                            <option disabled selected>--Pilih Status--</option>
+                            <option value="0">Tersedia</option>
+                            <option value="1">Terisi</option>
                         </select>
                     </div>
                     <div class="modal-footer">
