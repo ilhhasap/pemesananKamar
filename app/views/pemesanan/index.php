@@ -33,49 +33,41 @@
             <?php if($_SESSION['isAdmin'] == 0) : ?>
             <div class="tab-content" id="tableTabContent">
                 <div class="tab-pane fade show active" id="tamu" role="tabpanel" aria-labelledby="tamu-tab">
-
-                    <div class="table-responsive">
-                        <table class="table table-borderless transaction-table w-100 active" id="table-tamu">
-                            <thead>
-                                <tr>
-                                    <th>Atas nama</th>
-                                    <th>Kamar</th>
-                                    <th>Role</th>
-                                    <!-- <th class="status-header">Status</th> -->
-                                    <th class="action-header">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div
-                                            class="d-flex flex-column flex-md-row justify-content-start align-items-start align-items-md-center">
-
-                                            <div
-                                                class="d-flex flex-column justify-content-center align-items-start mt-2">
-                                                <h5 class="transaction-game"><?= $data['getPemesanan']['namaUser']; ?>
-                                                </h5>
-                                                <h5 class="transaction-type">
-                                                    <!-- <?= ($data['getPemesanan']['idRoom'] == 0) ? 'Tamu' : 'Admin' ?> -->
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="">Kamar <?= $data['getPemesanan']['idRoom']; ?></td>
-                                    <!-- <td><?= ($data['getPemesanan']['isAdmin'] == 0) ? 'Tamu' : 'Admin' ?></td> -->
-                                    <!-- <td class="status">
-                                        <span
-                                            class="pending w-auto d-flex  justify-content-center align-self-center">Pending</span>
-                                    </td> -->
-                                    <td class="action"><a
-                                            href="<?= BASEURL; ?>/customer/detail/<?= $customer['idUser']; ?>"
-                                            class="btn-transaction mx-auto">Details</a></td>
-                                </tr>
-                            </tbody>
-
-                        </table>
+                    <div class="col-md-4">
+                        <?php Flasher::flash(); ?>
                     </div>
+                    <div class="row gap-5">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <?php if( $data['getPemesanan']['idStatus'] == 0 ) : ?>
+                                <span class="badge bg-warning">Pending (Konfirmasi ditempat)</span>
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 1 ) : ?>
+                                <span class="badge bg-success">Sudah Check In</span>
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 2 ) : ?>
+                                <span class="badge bg-danger">Telah Check Out</span>
+                                <?php endif;?>
+                                <?php if( $data['getPemesanan']['idStatus'] == 3 ) : ?>
+                                <span class="badge bg-success"><i class="bi bi-check-lg"></i> Completed</span>
+                                <?php endif;?>
+                                <h5 class="card-title font-weight-bold">Kamar 0<?= $data['getPemesanan']['noRoom']; ?>
+                                </h5>
+                                <p class="card-text"><?= $data['getPemesanan']['namaUser']; ?></p>
+                                <div class="d-grid">
+                                    <?php if(isset($_SESSION['login']) && $_SESSION['isAdmin'] == 1 ) : ?>
+                                    <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
+                                        class="btn btn-primary mt-3" style="border-radius: 100px;">Edit Kamar</a>
+                                    <?php else : ?>
+                                    <a type="button" href="<?= BASEURL; ?>/home/detail/<?= $room['idRoom']; ?>"
+                                        class="btn btn-primary mt-3 <?= $room['isBooked'] == 0 ? ' ' : 'disabled'?>"
+                                        style="border-radius: 100px;">Lihat Detail</a>
+                                    <?php endif;?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -181,7 +173,7 @@
 
                                         <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
                                             class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
-                                        <a href="<?= BASEURL; ?>/pemesanan/prosesCheckOut/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                        <a href="<?= BASEURL; ?>/pemesanan/prosesCheckOut/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>/<?= $pemesanan['idRoom']; ?>"
                                             class="badge bg-danger mx-auto text-decoration-none"><i
                                                 class="bi bi-check-lg"></i> Check
                                             Out</a>
@@ -257,7 +249,7 @@
                                     <th colspan="2">Kamar</th>
                                     <th>Check In</th>
                                     <th>Check Out</th>
-                                    <th class="text-center">Action</th>
+                                    <th class="text-start">Action</th>
                                 </tr>
                             </thead>
 
@@ -278,10 +270,10 @@
 
                                         <a href="<?= BASEURL; ?>/pemesanan/detail/<?= $pemesanan['idBooking']; ?>"
                                             class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
-                                        <a href="<?= BASEURL; ?>/pemesanan/prosesSelesai/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
+                                        <!-- <a href="<?= BASEURL; ?>/pemesanan/prosesSelesai/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
                                             class="badge bg-success mx-auto text-decoration-none"><i
                                                 class="bi bi-check-lg"></i> Check
-                                            In</a>
+                                            In</a> -->
                                     </td>
                                 </tr>
                                 <?php endforeach;?>

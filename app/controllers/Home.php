@@ -43,16 +43,22 @@ class Home extends Controller {
     
     public function tambahPemesanan()
     {
-        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST) > 0 ) {
+        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST, $_POST['priceRoomType']) > 0 ) {
+            if( $this->model('PemesananModel')->updateRoomBooked($_POST['idRoom']) > 0 ) {
             Flasher::setFlash('berhasil', 'ditambahkan', 'success');
-            header('Location: ' . BASEURL . '/pemesanan');
+            header('Location: ' . BASEURL . '/home');
             exit;
         } else {
             Flasher::setFlash('gagal', 'ditambahkan', 'danger');
-            header('Location: ' . BASEURL . '/pemesanan');
+            header('Location: ' . BASEURL . '/home');
             exit;
         }
+    } else {
+        Flasher::setFlash('gagal', 'ditambahkan', 'danger');
+        header('Location: ' . BASEURL . '/home');
+        exit;
     }
+}
 
     public function tambahKamar()
     {

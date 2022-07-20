@@ -41,7 +41,7 @@ class PemesananModel {
     public function getBookingByIdRoom($idRoom)
     {
         $this->db->query('SELECT
-         namaUser FROM booking INNER JOIN user ON user.idUser = booking.idUser WHERE booking.idRoom =:idRoom');
+         namaUser FROM booking INNER JOIN user ON user.idUser = booking.idUser WHERE booking.idRoom =:idRoom AND booking.idStatus < 2');
          
         $this->db->bind('idRoom', $idRoom);
         return $this->db->single();
@@ -68,12 +68,54 @@ class PemesananModel {
         return $this->db->rowCount();
     }
 
+    // SET agar status kamar berubah jadi Booked setelah seseorang Check In
     public function updateRoomBooked($idRoom)
     {
         $query = 'UPDATE room SET isBooked = 1 WHERE idRoom = :idRoom';
         
         $this->db->query($query);
         $this->db->bind('idRoom', $idRoom);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+    
+    // SET agar status kamar berubah jadi available setelah seseorang Check Out
+    public function updateRoomAvailable($idRoom)
+    {
+        $query = 'UPDATE room SET isBooked = 0 WHERE idRoom = :idRoom';
+        
+        $this->db->query($query);
+        $this->db->bind('idRoom', $idRoom);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+
+    public function ubahDataPemesanan($data, $price)
+    {
+        $query = 'UPDATE booking SET idRoom = :idRoom, idUser = :idUser, checkIn = :checkIn, checkOut = :checkOut, idStatus = :idStatus, totalHarga = :totalHarga WHERE idBooking = :idBooking';
+        
+        $checkIn = $data['checkIn'];
+        $checkOut = $data['checkOut'];
+        
+        $durasi = strtotime($checkIn) - strtotime($checkOut);
+        $durasi = abs(round($durasi / 86400));
+        $duration = intval($durasi);
+        $totalHarga = $price * $duration;
+        // var_dump(strval(intval($totalHarga)));
+        
+        $this->db->query($query);
+        $this->db->bind('idBooking', $data['idBooking']);
+        $this->db->bind('idRoom', $data['idRoom']);
+        $this->db->bind('idUser', $data['idUser']);
+        $this->db->bind('checkIn', $checkIn);
+        $this->db->bind('checkOut', $checkOut);
+        $this->db->bind('idStatus', $data['idStatus']);
+        $this->db->bind('totalHarga', $totalHarga);
 
         $this->db->execute();
 

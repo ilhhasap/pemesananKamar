@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 18, 2022 at 11:00 AM
+-- Generation Time: Jul 20, 2022 at 06:03 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.28
 
@@ -33,16 +33,9 @@ CREATE TABLE `booking` (
   `idUser` int(11) NOT NULL,
   `checkIn` datetime NOT NULL,
   `checkOut` datetime NOT NULL,
-  `idStatus` int(11) NOT NULL
+  `idStatus` int(11) NOT NULL,
+  `totalHarga` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`idBooking`, `idRoom`, `idUser`, `checkIn`, `checkOut`, `idStatus`) VALUES
-(1, 1, 2, '2022-07-09 18:05:08', '2022-07-09 18:05:08', 3),
-(2, 5, 3, '2022-07-12 07:20:52', '2022-07-12 07:20:52', 3);
 
 -- --------------------------------------------------------
 
@@ -62,16 +55,16 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`idRoom`, `idRoomType`, `noRoom`, `isBooked`) VALUES
-(1, 1, 1, 0),
+(1, 1, 1, 1),
 (2, 1, 2, 0),
-(3, 1, 3, 1),
+(3, 1, 3, 0),
 (4, 1, 4, 0),
 (5, 2, 5, 0),
 (6, 2, 6, 0),
-(7, 2, 7, 1),
+(7, 2, 7, 0),
 (8, 3, 8, 0),
 (9, 3, 9, 0),
-(10, 3, 10, 0);
+(12, 3, 10, 0);
 
 -- --------------------------------------------------------
 
@@ -135,8 +128,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`idUser`, `namaUser`, `userName`, `password`, `isAdmin`) VALUES
 (1, 'Super Admin', 'admin', 'admin', 1),
-(2, 'Ilham Trista', 'ilhhasap', 'ilham', 0),
-(3, 'Tamu 2', 'tamu', 'tamu', 0);
+(2, 'Ilham Trista', 'ilhhasap', 'ilham', 0);
 
 --
 -- Indexes for dumped tables
@@ -183,13 +175,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `idBooking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idBooking` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `idRoom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idRoom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `roomType`

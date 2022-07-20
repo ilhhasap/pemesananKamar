@@ -28,7 +28,6 @@
                         <div class="form-group">
                             <h5 class="text-center">Form Pemesanan</h5>
                             <hr>
-                            <input type="hidden" value="<?= $data['room']['idRoom']?>" name="idRoom">
                             <div class="form-group mb-3">
                                 <label for="userName">User name</label>
                                 <input type="hidden" value="<?= $_SESSION['idUser']?>" name="idUser">
@@ -105,7 +104,11 @@
                         </select>
                     </div>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <?php if( $data['getBookingByIdRoom'] > 0) : ?>
                         Dipesan oleh : <strong><?= $data['getBookingByIdRoom']['namaUser'];?></strong>
+                        <?php else : ?>
+                        Belum dipesan
+                        <?php endif;?>
                     </div>
 
                     <div class="d-grid">

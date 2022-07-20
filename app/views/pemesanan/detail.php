@@ -75,14 +75,14 @@
 <div class="col-md-8">
     <div class="card">
         <div class="card-body">
-            <form action="<?= BASEURL; ?>/home/ubahPemesanan ?>" method="POST">
+            <form action="<?= BASEURL; ?>/pemesanan/ubahDataPemesanan ?>" method="POST">
                 <div class="form-group">
                     <h5 class="text-center">Update Pemesanan</h5>
                     <hr>
                     <input type="hidden" value="<?= $data['getPemesanan']['idBooking']?>" name="idBooking">
                     <div class="form-group mb-3">
                         <label for="userName">Kamar nomor</label>
-                        <select class="form-select" name="idRoomType">
+                        <select class="form-select" name="idRoom">
                             <?php foreach($data['getAllRoom'] as $room) : ?>
                             <?php if($data['getPemesanan']['noRoom'] == $room['idRoom']) { ?>
 
@@ -115,11 +115,11 @@
                         <label for="userName">Check Out</label>
                         <input type="datetime-local"
                             value="<?= date('Y-m-d h:i:s', strtotime($data['getPemesanan']['checkOut'])); ?>"
-                            class="form-control date" name="checkOut" disabled>
+                            class="form-control date" name="checkOut">
                     </div>
                     <div class=" form-group mb-3">
                         <label for="durasi">Status:</label>
-                        <select class="form-select" name="isBooked">
+                        <select class="form-select" name="idStatus">
                             <option value="<?= $data['getPemesanan']['idStatus']; ?>">
                                 <?php if( $data['getPemesanan']['idStatus'] == 0 ) : ?>
                                 Pending
@@ -139,12 +139,12 @@
                     <div class="form-group mb-3">
                         <label for="userName">Total Bayar:</label>
                         <input type="text" value="<?=  number_format($data['getPemesanan']['totalHarga'])?>"
-                            class="form-control date" name="checkIn" disabled>
+                            class="form-control date" disabled>
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success mt-3" style="border-radius: 100px;">Ubah data
                         </button>
-                        <a href="<?= BASEURL; ?>/pemesanan/hapusPemesanan/<?= $data['getPemesanan']['idBooking']; ?>"
+                        <a href="<?= BASEURL; ?>/pemesanan/hapusPemesanan/<?= $data['getPemesanan']['idBooking']; ?>/<?= $data['getPemesanan']['idRoom']; ?>"
                             class="btn btn-outline-danger mt-3" style="border-radius: 100px;"
                             onclick="return confirm('yakin?');">Batalkan pesanan</a>
                     </div>
