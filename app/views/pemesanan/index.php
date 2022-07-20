@@ -11,6 +11,7 @@
                 <a href="" class="btn btn-primary py-2 px-3" style="border-radius: 100px;" data-bs-toggle="modal"
                     data-bs-target="#formModal"><i class="bi bi-plus-lg me-1"></i>Tambah
                     Pemesanan</a>
+
                 <?php endif; ?>
                 <?php endif; ?>
             </div>
@@ -32,6 +33,7 @@
             <?php if($_SESSION['isAdmin'] == 0) : ?>
             <div class="tab-content" id="tableTabContent">
                 <div class="tab-pane fade show active" id="tamu" role="tabpanel" aria-labelledby="tamu-tab">
+
                     <div class="table-responsive">
                         <table class="table table-borderless transaction-table w-100 active" id="table-tamu">
                             <thead>
@@ -137,8 +139,7 @@
                                             class="badge bg-light mx-auto text-dark text-decoration-none">Detail</a>
                                         <a href="<?= BASEURL; ?>/pemesanan/prosesCheckIn/<?= $pemesanan['idBooking']; ?>/<?= $pemesanan['idStatus']; ?>"
                                             class="badge bg-success mx-auto text-decoration-none"><i
-                                                class="bi bi-check-lg"></i> Check
-                                            In</a>
+                                                class="bi bi-check-lg"></i> Sudah bayar</a>
                                     </td>
                                 </tr>
                                 <?php endforeach;?>
@@ -309,9 +310,10 @@
                         <div class="modal-body">
 
                             <form action="<?= BASEURL; ?>/pemesanan/tambah" method="post">
+
                                 <div class="form-group mb-3">
                                     <label for="userName">Kamar No</label>
-                                    <select class="form-select" name="idRoom">
+                                    <select class="form-select" name="idRoom" id="idRoom">
                                         <option selected disabled>--Pilih Kamar--</option>
                                         <?php foreach($data['getAllRoom'] as $pemesanan) : ?>
                                         <option value="<?= $pemesanan['idRoom']?>"><?= $pemesanan['noRoom']?>
@@ -320,6 +322,10 @@
                                         <?php endforeach;?>
                                     </select>
                                 </div>
+                                <!-- <div class="form-group mb-3">
+                                    <label for="userName">Harga</label>
+                                    <input type="text" class="form-control" value="" name="price" id="price" disabled>
+                                </div> -->
                                 <div class="form-group mb-3">
                                     <label for="userName">Nama Customer</label>
                                     <select class="form-select" name="idUser">
@@ -345,7 +351,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Tambah Data</button>
+                                    <button type="submit" class="btn btn-primary">Tambah Pesanan</button>
                             </form>
                         </div>
                     </div>
@@ -359,3 +365,16 @@
 
 </div>
 </div>
+<script type="text/javascript">
+//apabila terjadi event onchange terhadap object <select id=form_prov>
+function tampilHarga() {
+    $.ajax({
+        type: "POST",
+        URL: "{{ route('calendar.specificMonth', 'date') }}",
+        data: data,
+        success: function() {
+            console.log("works");
+        }
+    });
+}
+</script>

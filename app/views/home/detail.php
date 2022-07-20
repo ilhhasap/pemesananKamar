@@ -104,6 +104,10 @@
                             <?php endif;?>
                         </select>
                     </div>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        Dipesan oleh : <strong><?= $data['getBookingByIdRoom']['namaUser'];?></strong>
+                    </div>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success mt-3" style="border-radius: 100px;">Ubah data
                         </button>

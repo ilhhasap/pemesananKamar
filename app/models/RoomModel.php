@@ -49,6 +49,14 @@ class RoomModel {
         return $this->db->single();
     }
 
+    public function getPriceByIdRoom($idRoom)
+    {
+        // Ambil harga di tabel roomType yang idRoom (tabel room) = $idRoom 
+        $this->db->query('SELECT priceRoomType FROM roomType INNER JOIN room ON room.idRoomType = roomType.idRoomType WHERE room.idRoom=:idRoom');
+        $this->db->bind('idRoom', $idRoom);
+        return $this->db->single();
+    }
+
 
     public function tambahDataKamar($data)
     {

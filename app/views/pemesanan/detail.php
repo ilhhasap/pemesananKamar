@@ -16,7 +16,7 @@
                     <span class="badge bg-primary"><i class="bi bi-check-lg"></i> Completed</span>
                     <?php endif;?>
                     <h5 class="card-title"><?= $data['getPemesanan']['namaUser']; ?></h5>
-                    <p class="card-text"><?= $data['getPemesanan']['namaUser']; ?></p>
+                    <p class="card-text"><?= $data['getPemesanan']['userName']; ?></p>
                     <a href="<?= BASEURL; ?>/pemesanan" class="card-link">Kembali</a>
                     <!-- <?php if(isset($_SESSION['login'])): ?>
                     <?php if($_SESSION['isAdmin'] == 1): ?>
@@ -82,17 +82,27 @@
                     <input type="hidden" value="<?= $data['getPemesanan']['idBooking']?>" name="idBooking">
                     <div class="form-group mb-3">
                         <label for="userName">Kamar nomor</label>
-                        <select class="form-select" name="idRoom">
-                            <option value="<?= $data['getPemesanan']['idRoom']; ?>">Kamar
-                                <?= $data['getPemesanan']['noRoom']; ?></option>
+                        <select class="form-select" name="idRoomType">
+                            <?php foreach($data['getAllRoom'] as $room) : ?>
+                            <?php if($data['getPemesanan']['noRoom'] == $room['idRoom']) { ?>
+
+                            <?php $selected = "selected"; } else { $selected = " ";} ?>
+                            <option value="<?= $room['idRoom']?>" <?= $selected;?>>
+                                <?= $room['noRoom']?> (<?= $room['nameRoomType']?>)</option>
+                            <?php endforeach;?>
                         </select>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="userName">Nama Customer</label>
                         <select class="form-select" name="idUser">
-                            <option value="<?= $data['getPemesanan']['idUser']; ?>">
-                                <?= $data['getPemesanan']['namaUser']; ?></option>
+                            <?php foreach($data['customer'] as $customer) : ?>
+                            <?php if($data['getPemesanan']['idUser'] == $customer['idUser']) { ?>
+
+                            <?php $selected = "selected"; } else { $selected = " ";} ?>
+                            <option value="<?= $customer['idUser']?>" <?= $selected;?>>
+                                <?= $customer['namaUser']?> </option>
+                            <?php endforeach;?>
                         </select>
                     </div>
                     <div class="form-group mb-3">
@@ -105,7 +115,7 @@
                         <label for="userName">Check Out</label>
                         <input type="datetime-local"
                             value="<?= date('Y-m-d h:i:s', strtotime($data['getPemesanan']['checkOut'])); ?>"
-                            class="form-control date" name="checkOut" REQUIRED>
+                            class="form-control date" name="checkOut" disabled>
                     </div>
                     <div class=" form-group mb-3">
                         <label for="durasi">Status:</label>
@@ -126,9 +136,17 @@
                             </option>
                         </select>
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="userName">Total Bayar:</label>
+                        <input type="text" value="<?=  number_format($data['getPemesanan']['totalHarga'])?>"
+                            class="form-control date" name="checkIn" disabled>
+                    </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success mt-3" style="border-radius: 100px;">Ubah data
                         </button>
+                        <a href="<?= BASEURL; ?>/pemesanan/hapusPemesanan/<?= $data['getPemesanan']['idBooking']; ?>"
+                            class="btn btn-outline-danger mt-3" style="border-radius: 100px;"
+                            onclick="return confirm('yakin?');">Batalkan pesanan</a>
                     </div>
                 </div>
             </form>

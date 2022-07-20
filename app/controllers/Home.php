@@ -22,6 +22,7 @@ class Home extends Controller {
         $data['judul'] = 'Detail Kamar';
         $data['room'] = $this->model('RoomModel')->getRoomById($id);
         $data['getAllRoomType'] = $this->model('RoomModel')->getAllRoomType();
+        $data['getBookingByIdRoom'] = $this->model('PemesananModel')->getBookingByIdRoom($id);
         
         // Jika Kamar sudah terisi dan bukan admin, tidak bisa dipesan dan arahkan ke home
         if ($data['room']['isBooked'] == 1 && $_SESSION['isAdmin'] == 0) {

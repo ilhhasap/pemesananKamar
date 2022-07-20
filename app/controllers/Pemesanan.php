@@ -13,7 +13,7 @@ class Pemesanan extends Controller {
     {
         // $peminjaman = $this->model('PeminjamanModel')->getAllPeminjamanById($_SESSION['id']);
         // $data['peminjaman'] = $peminjaman;
-
+        
         // Kalo admin
         if ( $_SESSION['isAdmin'] == 1 ) {
             $data['judul'] = 'Pemesanan';
@@ -38,6 +38,9 @@ class Pemesanan extends Controller {
     public function detail($idBooking)
     {
         $data['getPemesanan'] = $this->model('PemesananModel')->getAllPemesananByIdBooking($idBooking);
+        $data['getAllRoom'] = $this->model('RoomModel')->getAllRoom();
+        $data['customer'] = $this->model('CustomerModel')->getAllCustomer();
+
         $data['judul'] = 'Detail Pemesanan';
         $this->view('templates/header', $data);
         $this->view('pemesanan/detail', $data);
@@ -46,16 +49,24 @@ class Pemesanan extends Controller {
 
     public function tambah()
     {
-        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST) > 0 ) {
-            Flasher::setFlash('berhasil', 'ditambahkan', 'success');
-            header('Location: ' . BASEURL . '/pemesanan');
-            exit;
+        $data['getPrice'] = $this->model('RoomModel')->getPriceByIdRoom($_POST['idRoom']);
+        $getPrice = $data['getPrice']['priceRoomType'];
+        if( $this->model('PemesananModel')->tambahDataPemesanan($_POST, $getPrice) > 0 ) {
+            if( $this->model('PemesananModel')->updateRoomBooked($_POST['idRoom']) > 0 ) {
+                Flasher::setFlash('berhasil', 'ditambahkan', 'success');
+                header('Location: ' . BASEURL . '/pemesanan');
+                exit;
+            } else {
+                Flasher::setFlash('gagal', 'ditambahkan', 'danger');
+                header('Location: ' . BASEURL . '/pemesanan');
+                exit;
+            }
         } else {
             Flasher::setFlash('gagal', 'ditambahkan', 'danger');
             header('Location: ' . BASEURL . '/pemesanan');
             exit;
         }
-    }
+}
 
     public function prosesCheckIn($idBooking, $idStatus)
     {
@@ -94,6 +105,19 @@ class Pemesanan extends Controller {
             header('Location: ' . BASEURL . '/pemesanan');
             exit;
         } 
+    }
+
+    public function hapusPemesanan($idBooking)
+    {
+        if( $this->model('PemesananModel')->hapusPemesanan($idBooking) > 0 ) {
+            Flasher::setFlash('Pemesanan Berhasil', 'dibatalkan', 'success');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        } else {
+            Flasher::setFlash('Pemesanan gagal', 'dibatalkan', 'danger');
+            header('Location: ' . BASEURL . '/pemesanan');
+            exit;
+        }
     }
 
     public function dikembalikan($id)

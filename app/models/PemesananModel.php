@@ -37,17 +37,24 @@ class PemesananModel {
         $this->db->bind('idBooking', $idBooking);
         return $this->db->single();
     }
+
+    public function getBookingByIdRoom($idRoom)
+    {
+        $this->db->query('SELECT
+         namaUser FROM booking INNER JOIN user ON user.idUser = booking.idUser WHERE booking.idRoom =:idRoom');
+         
+        $this->db->bind('idRoom', $idRoom);
+        return $this->db->single();
+    }
     
-    public function tambahDataPemesanan($data)
+    public function tambahDataPemesanan($data, $price)
     {
         $query = 'INSERT INTO booking 
         VALUES (NULL, :idRoom, :idUser, :checkIn, :checkOut, 0, :totalHarga)';
 
         $checkIn= $data['checkIn'];
-        $harga = $data['price'];
-        $durasi = $data['durasi'];
         
-        $totalHarga = $harga * $durasi;
+        $totalHarga = $data['durasi'] * $price;
         $checkOut = date('Y-m-d h:i:s', strtotime($checkIn . ' + ' . $data['durasi'] .' days'));
 
         $this->db->query($query);
@@ -57,12 +64,23 @@ class PemesananModel {
         $this->db->bind('checkOut', $checkOut);
         $this->db->bind('totalHarga', $totalHarga);
         $this->db->execute();
-        
-        $queryUpdateRoom = 'UPDATE room SET isBooked = 1 WHERE idRoom = :idRoom';
-        $this->db->query($queryUpdateRoom);
 
         return $this->db->rowCount();
     }
+
+    public function updateRoomBooked($idRoom)
+    {
+        $query = 'UPDATE room SET isBooked = 1 WHERE idRoom = :idRoom';
+        
+        $this->db->query($query);
+        $this->db->bind('idRoom', $idRoom);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+
 
     public function prosesCheckIn($idBooking, $idStatus)
     {
@@ -82,6 +100,18 @@ class PemesananModel {
         $this->db->query($query);
         $this->db->bind('idBooking', $idBooking);
         $this->db->bind('idStatus', $idStatus);
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+    public function hapusPemesanan($idBooking)
+    {
+        $query = "DELETE FROM booking WHERE idBooking = :idBooking";
+        
+        $this->db->query($query);
+        $this->db->bind('idBooking', $idBooking);
 
         $this->db->execute();
 
